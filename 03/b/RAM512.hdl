@@ -1,0 +1,240 @@
+// This file is part of the materials accompanying the book 
+// "The Elements of Computing Systems" by Nisan and Schocken, 
+// MIT Press. Book site: www.idc.ac.il/tecs
+// File name: projects/03/b/RAM512.hdl
+
+/**
+ * Memory of 512 registers, each 16 bit-wide. Out holds the value
+ * stored at the memory location specified by address. If load==1, then 
+ * the in value is loaded into the memory location specified by address 
+ * (the loaded value will be emitted to out from the next time step onward).
+ */
+
+CHIP RAM512 {
+    IN in[16], load, address[9];
+    OUT out[16];
+
+    PARTS:
+        Not(out=high);
+
+        RAM64(in=ramin1, out=ramout1, address=address[0..5], load=load1);
+        RAM64(in=ramin2, out=ramout2, address=address[0..5], load=load2);
+        RAM64(in=ramin3, out=ramout3, address=address[0..5], load=load3);
+        RAM64(in=ramin4, out=ramout4, address=address[0..5], load=load4);
+        RAM64(in=ramin5, out=ramout5, address=address[0..5], load=load5);
+        RAM64(in=ramin6, out=ramout6, address=address[0..5], load=load6);
+        RAM64(in=ramin7, out=ramout7, address=address[0..5], load=load7);
+        RAM64(in=ramin8, out=ramout8, address=address[0..5], load=load8);
+
+        DMux8Way(
+            in=high,
+            sel=address[6..8],
+            a=dmuxa,
+            b=dmuxb,
+            c=dmuxc,
+            d=dmuxd,
+            e=dmuxe,
+            f=dmuxf,
+            g=dmuxg,
+            h=dmuxh
+        );
+
+
+
+
+        And(a=load, b=dmuxa, out=load1);
+        And(a=load, b=dmuxb, out=load2);
+        And(a=load, b=dmuxc, out=load3);
+        And(a=load, b=dmuxd, out=load4);
+        And(a=load, b=dmuxe, out=load5);
+        And(a=load, b=dmuxf, out=load6);
+        And(a=load, b=dmuxg, out=load7);
+        And(a=load, b=dmuxh, out=load8);
+
+
+
+
+        And16(
+            a[0]=dmuxa, 
+            a[1]=dmuxa,
+            a[2]=dmuxa,
+            a[3]=dmuxa,
+            a[4]=dmuxa,
+            a[5]=dmuxa,
+            a[6]=dmuxa,
+            a[7]=dmuxa,
+            a[8]=dmuxa,
+            a[9]=dmuxa,
+            a[10]=dmuxa,
+            a[11]=dmuxa,
+            a[12]=dmuxa,
+            a[13]=dmuxa,
+            a[14]=dmuxa,
+            a[15]=dmuxa,
+            b=in, 
+            out=ramin1
+        );
+
+        And16(
+            a[0]=dmuxb, 
+            a[1]=dmuxb,
+            a[2]=dmuxb,
+            a[3]=dmuxb,
+            a[4]=dmuxb,
+            a[5]=dmuxb,
+            a[6]=dmuxb,
+            a[7]=dmuxb,
+            a[8]=dmuxb,
+            a[9]=dmuxb,
+            a[10]=dmuxb,
+            a[11]=dmuxb,
+            a[12]=dmuxb,
+            a[13]=dmuxb,
+            a[14]=dmuxb,
+            a[15]=dmuxb,
+            b=in, 
+            out=ramin2
+        );
+
+        And16(
+            a[0]=dmuxc, 
+            a[1]=dmuxc,
+            a[2]=dmuxc,
+            a[3]=dmuxc,
+            a[4]=dmuxc,
+            a[5]=dmuxc,
+            a[6]=dmuxc,
+            a[7]=dmuxc,
+            a[8]=dmuxc,
+            a[9]=dmuxc,
+            a[10]=dmuxc,
+            a[11]=dmuxc,
+            a[12]=dmuxc,
+            a[13]=dmuxc,
+            a[14]=dmuxc,
+            a[15]=dmuxc,
+            b=in, 
+            out=ramin3
+        );
+
+        And16(
+            a[0]=dmuxd, 
+            a[1]=dmuxd,
+            a[2]=dmuxd,
+            a[3]=dmuxd,
+            a[4]=dmuxd,
+            a[5]=dmuxd,
+            a[6]=dmuxd,
+            a[7]=dmuxd,
+            a[8]=dmuxd,
+            a[9]=dmuxd,
+            a[10]=dmuxd,
+            a[11]=dmuxd,
+            a[12]=dmuxd,
+            a[13]=dmuxd,
+            a[14]=dmuxd,
+            a[15]=dmuxd,
+            b=in, 
+            out=ramin4
+        );
+
+        And16(
+            a[0]=dmuxe, 
+            a[1]=dmuxe,
+            a[2]=dmuxe,
+            a[3]=dmuxe,
+            a[4]=dmuxe,
+            a[5]=dmuxe,
+            a[6]=dmuxe,
+            a[7]=dmuxe,
+            a[8]=dmuxe,
+            a[9]=dmuxe,
+            a[10]=dmuxe,
+            a[11]=dmuxe,
+            a[12]=dmuxe,
+            a[13]=dmuxe,
+            a[14]=dmuxe,
+            a[15]=dmuxe,
+            b=in, 
+            out=ramin5
+        );
+
+        And16(
+            a[0]=dmuxf, 
+            a[1]=dmuxf,
+            a[2]=dmuxf,
+            a[3]=dmuxf,
+            a[4]=dmuxf,
+            a[5]=dmuxf,
+            a[6]=dmuxf,
+            a[7]=dmuxf,
+            a[8]=dmuxf,
+            a[9]=dmuxf,
+            a[10]=dmuxf,
+            a[11]=dmuxf,
+            a[12]=dmuxf,
+            a[13]=dmuxf,
+            a[14]=dmuxf,
+            a[15]=dmuxf,
+            b=in, 
+            out=ramin6
+        );
+
+        And16(
+            a[0]=dmuxg, 
+            a[1]=dmuxg,
+            a[2]=dmuxg,
+            a[3]=dmuxg,
+            a[4]=dmuxg,
+            a[5]=dmuxg,
+            a[6]=dmuxg,
+            a[7]=dmuxg,
+            a[8]=dmuxg,
+            a[9]=dmuxg,
+            a[10]=dmuxg,
+            a[11]=dmuxg,
+            a[12]=dmuxg,
+            a[13]=dmuxg,
+            a[14]=dmuxg,
+            a[15]=dmuxg,
+            b=in, 
+            out=ramin7
+        );
+
+        And16(
+            a[0]=dmuxh, 
+            a[1]=dmuxh,
+            a[2]=dmuxh,
+            a[3]=dmuxh,
+            a[4]=dmuxh,
+            a[5]=dmuxh,
+            a[6]=dmuxh,
+            a[7]=dmuxh,
+            a[8]=dmuxh,
+            a[9]=dmuxh,
+            a[10]=dmuxh,
+            a[11]=dmuxh,
+            a[12]=dmuxh,
+            a[13]=dmuxh,
+            a[14]=dmuxh,
+            a[15]=dmuxh,
+            b=in, 
+            out=ramin8
+        );
+
+
+
+        Mux8Way16(
+            sel=address[6..8],
+            a=ramout1,
+            b=ramout2,
+            c=ramout3,
+            d=ramout4,
+            e=ramout5,
+            f=ramout6,
+            g=ramout7,
+            h=ramout8,
+            out=out
+        );
+
+}

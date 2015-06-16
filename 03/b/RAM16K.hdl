@@ -1,0 +1,138 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/b/RAM16K.hdl
+
+/**
+ * Memory of 16K registers, each 16 bit-wide. Out holds the value
+ * stored at the memory location specified by address. If load==1, then 
+ * the in value is loaded into the memory location specified by address 
+ * (the loaded value will be emitted to out from the next time step onward).
+ */
+
+CHIP RAM16K {
+    IN in[16], load, address[14];
+    OUT out[16];
+
+    PARTS:
+        Not(out=high);
+
+        RAM4K(in=ramin1, out=ramout1, address=address[0..11], load=load1);
+        RAM4K(in=ramin2, out=ramout2, address=address[0..11], load=load2);
+        RAM4K(in=ramin3, out=ramout3, address=address[0..11], load=load3);
+        RAM4K(in=ramin4, out=ramout4, address=address[0..11], load=load4);
+
+        DMux4Way(
+            in=high,
+            sel=address[12..13],
+            a=dmuxa,
+            b=dmuxb,
+            c=dmuxc,
+            d=dmuxd
+        );
+
+
+
+
+        And(a=load, b=dmuxa, out=load1);
+        And(a=load, b=dmuxb, out=load2);
+        And(a=load, b=dmuxc, out=load3);
+        And(a=load, b=dmuxd, out=load4);
+
+
+
+
+        And16(
+            a[0]=dmuxa, 
+            a[1]=dmuxa,
+            a[2]=dmuxa,
+            a[3]=dmuxa,
+            a[4]=dmuxa,
+            a[5]=dmuxa,
+            a[6]=dmuxa,
+            a[7]=dmuxa,
+            a[8]=dmuxa,
+            a[9]=dmuxa,
+            a[10]=dmuxa,
+            a[11]=dmuxa,
+            a[12]=dmuxa,
+            a[13]=dmuxa,
+            a[14]=dmuxa,
+            a[15]=dmuxa,
+            b=in, 
+            out=ramin1
+        );
+
+        And16(
+            a[0]=dmuxb, 
+            a[1]=dmuxb,
+            a[2]=dmuxb,
+            a[3]=dmuxb,
+            a[4]=dmuxb,
+            a[5]=dmuxb,
+            a[6]=dmuxb,
+            a[7]=dmuxb,
+            a[8]=dmuxb,
+            a[9]=dmuxb,
+            a[10]=dmuxb,
+            a[11]=dmuxb,
+            a[12]=dmuxb,
+            a[13]=dmuxb,
+            a[14]=dmuxb,
+            a[15]=dmuxb,
+            b=in, 
+            out=ramin2
+        );
+
+        And16(
+            a[0]=dmuxc, 
+            a[1]=dmuxc,
+            a[2]=dmuxc,
+            a[3]=dmuxc,
+            a[4]=dmuxc,
+            a[5]=dmuxc,
+            a[6]=dmuxc,
+            a[7]=dmuxc,
+            a[8]=dmuxc,
+            a[9]=dmuxc,
+            a[10]=dmuxc,
+            a[11]=dmuxc,
+            a[12]=dmuxc,
+            a[13]=dmuxc,
+            a[14]=dmuxc,
+            a[15]=dmuxc,
+            b=in, 
+            out=ramin3
+        );
+
+        And16(
+            a[0]=dmuxd, 
+            a[1]=dmuxd,
+            a[2]=dmuxd,
+            a[3]=dmuxd,
+            a[4]=dmuxd,
+            a[5]=dmuxd,
+            a[6]=dmuxd,
+            a[7]=dmuxd,
+            a[8]=dmuxd,
+            a[9]=dmuxd,
+            a[10]=dmuxd,
+            a[11]=dmuxd,
+            a[12]=dmuxd,
+            a[13]=dmuxd,
+            a[14]=dmuxd,
+            a[15]=dmuxd,
+            b=in, 
+            out=ramin4
+        );
+
+
+        Mux4Way16(
+            sel=address[12..13],
+            a=ramout1,
+            b=ramout2,
+            c=ramout3,
+            d=ramout4,
+            out=out
+        );
+}
