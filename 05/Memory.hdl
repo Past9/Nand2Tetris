@@ -27,5 +27,63 @@ CHIP Memory {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+        RAM16K(
+            address[0]= address[0],
+            address[1]= address[1],
+            address[2]= address[2],
+            address[3]= address[3],
+            address[4]= address[4],
+            address[5]= address[5],
+            address[6]= address[6],
+            address[7]= address[7],
+            address[8]= address[8],
+            address[9]= address[9],
+            address[10]=address[10],
+            address[11]=address[11],
+            address[12]=address[12],
+            address[13]=address[13],
+            load=rl2,
+            in=in,
+            out=ro
+        );
+
+        Screen(
+            address[0]= address[0],
+            address[1]= address[1],
+            address[2]= address[2],
+            address[3]= address[3],
+            address[4]= address[4],
+            address[5]= address[5],
+            address[6]= address[6],
+            address[7]= address[7],
+            address[8]= address[8],
+            address[9]= address[9],
+            address[10]=address[10],
+            address[11]=address[11],
+            address[12]=address[12],
+            load=sl3,
+            in=in,
+            out=so
+        );
+
+        // RAM/Screen address switch
+        Not(in=address[14], out=rl1);
+        And(a=rl1, b=load, out=rl2);
+        // End RAM/Screen address switch
+
+        // Screen address switch
+        Not(in=address[13], out=sl1);
+        And(a=address[14], b=sl1, out=sl2);
+        And(a=sl2, b=load, out=sl3);
+        // End screen address switch
+
+        Keyboard(out=ko);
+
+        // Output switch
+        Mux16(a=so, b=ko, sel=address[13], out=sko);
+        Mux16(a=ro, b=sko, sel=address[14], out=out);
+        // End output switch
+
+
+
 }
